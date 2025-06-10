@@ -16,6 +16,6 @@ COPY . .
 # Cloud Run uses the $PORT env variable, EXPOSE is more for documentation/local use
 EXPOSE 8080
 
-# Comando para correr la aplicación usando gunicorn
-# Cloud Run inyectará la variable de entorno $PORT
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
+# El comando para iniciar el servidor de producción Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "--timeout", "0", "app:app"]
+
