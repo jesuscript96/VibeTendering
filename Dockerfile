@@ -18,4 +18,4 @@ EXPOSE 8080
 
 # Comando para correr la aplicación usando gunicorn
 # Cloud Run inyectará la variable de entorno $PORT
-CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
