@@ -12,6 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia el resto del código de tu aplicación al directorio de trabajo
 COPY . .
 
-# ¡ESTA ES LA LÍNEA CRUCIAL Y CORRECTA!
+# ¡ESTA ES LA LÍNEA CRUCIAL!
 # Usa el formato "exec" (con corchetes) y escribe el puerto 8080 directamente.
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "--timeout", "0", "app:app"]
