@@ -1,9 +1,16 @@
-# cloudbuild.yaml COMPLETO, VERIFICADO Y CORRECTO
+# cloudbuild.yaml - VERSIÓN FINAL CORREGIDA
+
 steps:
+  # Paso 1: Construir la imagen de Docker
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest', '.']
+
+  # Paso 2: Subir la imagen a Artifact Registry
+  # La variable ${_SERVICE_NAME} aquí está corregida para que coincida con la del activador.
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_name}:latest']
+    args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest']
+
+  # Paso 3: Desplegar la imagen en Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -14,10 +21,9 @@ steps:
       - '--region=${_REGION}'
       - '--platform=managed'
       - '--allow-unauthenticated'
+
 images:
   - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
-
-# ESTE ES EL BLOQUE CLAVE - VERIFICA LA INDENTACIÓN
-# 'options:' no debe tener ningún espacio al principio.
+  
 options:
   logging: CLOUD_LOGGING_ONLY
