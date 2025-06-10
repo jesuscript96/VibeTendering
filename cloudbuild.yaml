@@ -1,15 +1,19 @@
-# cloudbuild.yaml COMPLETO Y CORRECTO
-
+# cloudbuild.yaml
 steps:
   # 1. Construir la imagen de Docker
+  # Le decimos a Docker que construya la imagen usando el Dockerfile en el directorio actual (.)
+  # y la etiquete con el nombre completo que usaremos en Artifact Registry.
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest', '.']
 
   # 2. Subir la imagen construida a Google Artifact Registry
+  # Artifact Registry es el lugar moderno para almacenar tus imágenes de Docker en GCP.
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest']
 
   # 3. Desplegar la imagen en Cloud Run
+  # Usamos el comando 'gcloud run deploy' para tomar la imagen que acabamos de subir
+  # y desplegarla como un nuevo servicio o una nueva revisión de un servicio existente.
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
@@ -24,9 +28,3 @@ steps:
 # Guardamos la imagen en Artifact Registry para poder usarla en el paso de despliegue
 images:
   - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/${_SERVICE_NAME}:latest'
-  
-# --- ¡ESTE ES EL BLOQUE QUE FALTA Y SOLUCIONA EL ERROR! ---
-# Opciones de configuración para la compilación
-options:
-  # Le decimos a Cloud Build que envíe los logs únicamente a Cloud Logging
-  logging: CLOUD_LOGGING_ONLY

@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24) # Generates a random secret key
 app.config['UPLOAD_FOLDER'] = 'uploads'
 DATABASE = 'users.db'
+app.config['DATABASE'] = DATABASE
 
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
