@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 8080
 
 # El comando para iniciar el servidor de producción Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "--timeout", "0", "app:app"]
+CMD exec gunicorn --bind "0.0.0.0:$PORT" --workers 1 --threads 8 --timeout 0 app:app
 
