@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Excel File{% endblock %}
+
+{% block content %}
+<h2>Upload Excel File</h2>
+<p>Welcome, {{ session.username }}! You can upload your Excel file here.</p>
+<form method="post" enctype="multipart/form-data" action="{{ url_for('upload_file') }}">
+    <div>
+        <label for="file">Choose Excel file:</label>
+        <input type="file" id="file" name="file" accept=".xls,.xlsx" required>
+    </div>
+    <div>
+        <button type="submit">Upload</button>
+    </div>
+</form>
+<p><a href="{{ url_for('logout') }}">Logout</a></p>
+{% endblock %}
